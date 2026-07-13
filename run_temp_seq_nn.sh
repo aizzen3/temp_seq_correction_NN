@@ -1,11 +1,10 @@
 #!/bin/bash
-#SBATCH -p standard
-#SBATCH --job-name=temp_seq_nn
-#SBATCH --output=temp_seq_nn_%j.log
-#SBATCH --error=temp_seq_nn_%j.err
-#SBATCH --time=08:00:00
-#SBATCH --mem=64G
-#SBATCH --cpus-per-task=8
+#SBATCH -p fat                # high-RAM nodes
+#SBATCH --job-name=qc_run
+#SBATCH --output=qc_%j.log    # log file (%j = job id)
+#SBATCH --time=08:00:00       # max runtime
+#SBATCH --mem=512G            # request RAM
+#SBATCH --cpus-per-task=8  
 
 set -euo pipefail
 
@@ -22,4 +21,5 @@ echo "Python path:"
 which python
 python --version
 
+python upgrade_satis.py
 python run_satis_conv_search.py

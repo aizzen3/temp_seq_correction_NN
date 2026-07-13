@@ -1,6 +1,6 @@
-# ============================================================
+
 # SATIS + Conv1D + BiLSTM hyperparameter search script
-# ============================================================
+
 
 import os
 import itertools
@@ -33,9 +33,9 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error
 from sensor_simulator import generate_ml_dataset
 
 
-# ============================================================
+
 # Settings
-# ============================================================
+
 
 RESULTS_DIR = "satis_conv_search_results"
 os.makedirs(RESULTS_DIR, exist_ok=True)
@@ -55,15 +55,18 @@ KERNEL_OPTIONS = [3, 5, 7]
 DILATION_OPTIONS = [1, 2, 4]
 NUM_CONV_LAYERS_OPTIONS = [1, 2, 3]
 
-LSTM_UNITS_OPTIONS = [64]
+
+LSTM_UNITS_OPTIONS = [64, 128]
+
 DROPOUT_OPTIONS = [0.1]
-LEARNING_RATE_OPTIONS = [1e-3]
+
+
+LEARNING_RATE_OPTIONS = [1e-3, 3e-3]
 
 # repeated seeds for standard deviation
 SEARCH_SEEDS = [1, 2, 3]
 
-# If None, it tests all configurations.
-# Warning: all configurations can be very slow.
+
 MAX_CONFIGS = 80
 
 STD_WEIGHT = 1
@@ -81,9 +84,9 @@ except Exception:
     pass
 
 
-# ============================================================
+
 # Spike detection
-# ============================================================
+
 
 def remove_sudden_spikes_as_missing(X_raw, threshold=5.0):
     """
@@ -107,9 +110,8 @@ def remove_sudden_spikes_as_missing(X_raw, threshold=5.0):
     return X_cleaned
 
 
-# ============================================================
+
 # Dataset preparation
-# ============================================================
 
 def prepare_dataset():
     print("\nGenerating dataset...")
@@ -213,13 +215,9 @@ def prepare_dataset():
 
     test_dataset_ids = dataset_ids[n_train + n_val:]
 
-    # --------------------------------------------------------
-    # Normalize X correctly
-    # --------------------------------------------------------
-    # Normalize sensor values and derivatives only.
-    # Do NOT normalize mask channels.
-    # mask channels must remain exactly 0 or 1.
-    # --------------------------------------------------------
+    
+    # Normal
+
 
     norm_channels = [0, 1, 2, 6, 7, 8]
 
@@ -244,9 +242,8 @@ def prepare_dataset():
     X_val = normalize_X(X_val_raw)
     X_test = normalize_X(X_test_raw)
 
-    # --------------------------------------------------------
-    # Normalize Y using training statistics only
-    # --------------------------------------------------------
+    
+    # Normali
 
     Y_mean = Y_train_raw.mean(axis=(0, 1), keepdims=True)
     Y_std = Y_train_raw.std(axis=(0, 1), keepdims=True) + 1e-8
@@ -277,9 +274,9 @@ def prepare_dataset():
     }
 
 
-# ============================================================
+
 # Model builder
-# ============================================================
+
 
 def build_satis_model(
     input_shape,
@@ -290,19 +287,7 @@ def build_satis_model(
     dropout_rate=0.1,
     learning_rate=1e-3
 ):
-    """
-    SATIS-style model:
-
-    sensor values + masks + derivatives
-            ↓
-    sensor attention
-            ↓
-    multiple Conv1D layers
-            ↓
-    BiLSTM
-            ↓
-    Dense output
-    """
+    
 
     inputs = Input(shape=input_shape)
 
@@ -346,9 +331,9 @@ def build_satis_model(
         sensor_derivatives
     ])
 
-    # --------------------------------------------------------
+  
     # Multiple Conv1D layers
-    # --------------------------------------------------------
+   
 
     x = satis_features
 
@@ -364,9 +349,9 @@ def build_satis_model(
 
         x = LayerNormalization()(x)
 
-    # --------------------------------------------------------
+   
     # Temporal model
-    # --------------------------------------------------------
+    
 
     x = Bidirectional(
         LSTM(
@@ -397,9 +382,9 @@ def build_satis_model(
     return model
 
 
-# ============================================================
+
 # Training one model
-# ============================================================
+
 
 def train_one_model(
     data,
@@ -462,9 +447,9 @@ def train_one_model(
     return best_val_loss, best_val_mae, n_params
 
 
-# ============================================================
+
 # Hyperparameter configurations
-# ============================================================
+
 
 def create_configs():
     configs = []
@@ -514,10 +499,8 @@ def create_configs():
     return configs
 
 
-# ============================================================
-# Hyperparameter search
-# ============================================================
 
+# Hyperparameter search
 def run_hyperparameter_search(data):
     configs = create_configs()
 
@@ -611,9 +594,8 @@ def run_hyperparameter_search(data):
     return results_df
 
 
-# ============================================================
+
 # Final model training
-# ============================================================
 
 def train_final_model(data, best_config):
 
@@ -754,8 +736,24 @@ def plot_training_curve(history):
     plt.close()
 
 
-def plot_prediction_examples(Y_true, Y_pred, n_examples=5):
+def plot_prediction_examples(Y_true, Y_pred, best_config, n_examples=5):
+    """
+    CHANGE 3: title now explicitly states this is the best configuration
+    found by the search, with its key hyperparameters shown, so it is
+    unambiguous that examples 0-4 come from that model (not some other
+    config).
+    """
     n_examples = min(n_examples, Y_true.shape[0])
+
+    config_str = (
+        f"filters={tuple(best_config['conv_filters'])}, "
+        f"kernel={best_config['kernel_size']}, "
+        f"dilation={best_config['dilation_rate']}, "
+        f"lstm_units={best_config['lstm_units']}, "
+        f"lr={best_config['learning_rate']}"
+    )
+
+    print(f"\nPlotting prediction examples using BEST config: {config_str}")
 
     for i in range(n_examples):
 
@@ -770,7 +768,7 @@ def plot_prediction_examples(Y_true, Y_pred, n_examples=5):
         )
         plt.xlabel("Time step")
         plt.ylabel("Temperature")
-        plt.title(f"Prediction example {i}")
+        plt.title(f"Prediction example {i}\nBest config: {config_str}")
         plt.legend()
         plt.tight_layout()
         plt.savefig(
@@ -910,11 +908,11 @@ def plot_attention_example(model, X_test, example_index=0):
         print("Could not plot attention weights:", e)
 
 
-# ============================================================
-# Evaluation
-# ============================================================
 
-def evaluate_and_plot(final_model, history, results_df, data):
+# Evaluation
+
+
+def evaluate_and_plot(final_model, history, results_df, data, best_config):
 
     X_test = data["X_test"]
     Y_test_norm = data["Y_test"]
@@ -974,7 +972,7 @@ def evaluate_and_plot(final_model, history, results_df, data):
     plot_top_configs(results_df, top_n=10)
     plot_loss_vs_params(results_df)
     plot_training_curve(history)
-    plot_prediction_examples(Y_true, Y_pred, n_examples=5)
+    plot_prediction_examples(Y_true, Y_pred, best_config, n_examples=5)
     plot_true_vs_pred(Y_true, Y_pred)
     plot_residual_histogram(Y_true, Y_pred)
     plot_error_over_time(Y_true, Y_pred)
@@ -1009,7 +1007,8 @@ def main():
         final_model=final_model,
         history=history,
         results_df=results_df,
-        data=data
+        data=data,
+        best_config=best_config
     )
 
 
