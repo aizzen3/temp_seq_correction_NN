@@ -1,0 +1,20 @@
+step,pass_number,search_parameter,selected_value,stability_score,conv_filters,kernel_size,dilation_rate,lstm_units,dropout_rate,learning_rate,backbone,use_learned_imputation,imputer_units,previous_value,previous_score,decision
+0,0,initial_config,"{'conv_filters': (64, 128), 'kernel_size': 5, 'dilation_rate': 1, 'lstm_units': 64, 'dropout_rate': 0.1, 'learning_rate': 0.001, 'backbone': 'conv_bilstm', 'use_learned_imputation': True, 'imputer_units': 32}",0.048568322724119144,"(64, 128)",5,1,64,0.1,0.001,conv_bilstm,True,32,,,
+1,1,conv_filters,"(256,)",0.04664585932780687,"(256,)",5,1,64,0.1,0.001,conv_bilstm,True,32,"(64, 128)",0.048568322724119144,updated
+2,1,kernel_size,5,0.04664585932780687,"(256,)",5,1,64,0.1,0.001,conv_bilstm,True,32,5,0.04664585932780687,kept_previous
+3,1,dilation_rate,1,0.04664585932780687,"(256,)",5,1,64,0.1,0.001,conv_bilstm,True,32,1,0.04664585932780687,kept_previous
+4,1,lstm_units,128,0.04534368580099668,"(256,)",5,1,128,0.1,0.001,conv_bilstm,True,32,64,0.04664585932780687,updated
+5,1,dropout_rate,0.1,0.04534368580099668,"(256,)",5,1,128,0.1,0.001,conv_bilstm,True,32,0.1,0.04534368580099668,kept_previous
+6,1,learning_rate,0.001,0.04534368580099668,"(256,)",5,1,128,0.1,0.001,conv_bilstm,True,32,0.001,0.04534368580099668,kept_previous
+7,2,conv_filters,"(256,)",0.04534368580099668,"(256,)",5,1,128,0.1,0.001,conv_bilstm,True,32,"(256,)",0.04534368580099668,kept_previous
+8,2,kernel_size,3,0.043926638380144434,"(256,)",3,1,128,0.1,0.001,conv_bilstm,True,32,5,0.04534368580099668,updated
+9,2,dilation_rate,1,0.043926638380144434,"(256,)",3,1,128,0.1,0.001,conv_bilstm,True,32,1,0.043926638380144434,kept_previous
+10,2,lstm_units,128,0.043926638380144434,"(256,)",3,1,128,0.1,0.001,conv_bilstm,True,32,128,0.043926638380144434,kept_previous
+11,2,dropout_rate,0.1,0.043926638380144434,"(256,)",3,1,128,0.1,0.001,conv_bilstm,True,32,0.1,0.043926638380144434,kept_previous
+12,2,learning_rate,0.001,0.043926638380144434,"(256,)",3,1,128,0.1,0.001,conv_bilstm,True,32,0.001,0.043926638380144434,kept_previous
+13,3,conv_filters,"(256,)",0.043926638380144434,"(256,)",3,1,128,0.1,0.001,conv_bilstm,True,32,"(256,)",0.043926638380144434,kept_previous
+14,3,kernel_size,3,0.043926638380144434,"(256,)",3,1,128,0.1,0.001,conv_bilstm,True,32,3,0.043926638380144434,kept_previous
+15,3,dilation_rate,1,0.043926638380144434,"(256,)",3,1,128,0.1,0.001,conv_bilstm,True,32,1,0.043926638380144434,kept_previous
+16,3,lstm_units,128,0.043926638380144434,"(256,)",3,1,128,0.1,0.001,conv_bilstm,True,32,128,0.043926638380144434,kept_previous
+17,3,dropout_rate,0.1,0.043926638380144434,"(256,)",3,1,128,0.1,0.001,conv_bilstm,True,32,0.1,0.043926638380144434,kept_previous
+18,3,learning_rate,0.001,0.043926638380144434,"(256,)",3,1,128,0.1,0.001,conv_bilstm,True,32,0.001,0.043926638380144434,kept_previous

@@ -1,0 +1,8 @@
+step,pass_number,search_parameter,selected_value,stability_score,conv_filters,kernel_size,dilation_rate,lstm_units,dropout_rate,learning_rate,previous_value,previous_score,decision
+0,0,initial_config,"{'conv_filters': (256,), 'kernel_size': 3, 'dilation_rate': 4, 'lstm_units': 128, 'dropout_rate': 0.1, 'learning_rate': 0.001}",0.04238486235537481,"(256,)",3,4,128,0.1,0.001,,,
+1,1,conv_filters,"(256,)",0.04238486235537481,"(256,)",3,4,128,0.1,0.001,"(256,)",0.04238486235537481,kept_previous
+2,1,kernel_size,3,0.04238486235537481,"(256,)",3,4,128,0.1,0.001,3,0.04238486235537481,kept_previous
+3,1,dilation_rate,4,0.04238486235537481,"(256,)",3,4,128,0.1,0.001,4,0.04238486235537481,kept_previous
+4,1,lstm_units,128,0.04238486235537481,"(256,)",3,4,128,0.1,0.001,128,0.04238486235537481,kept_previous
+5,1,dropout_rate,0.1,0.04238486235537481,"(256,)",3,4,128,0.1,0.001,0.1,0.04238486235537481,kept_previous
+6,1,learning_rate,0.001,0.04238486235537481,"(256,)",3,4,128,0.1,0.001,0.001,0.04238486235537481,kept_previous

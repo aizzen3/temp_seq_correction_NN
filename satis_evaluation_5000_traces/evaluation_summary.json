@@ -1,0 +1,10 @@
+{
+  "training_seed": 42,
+  "evaluation_seed": 1001,
+  "number_of_evaluation_traces": 5000,
+  "residual_definition": "predicted_temperature - true_temperature",
+  "global_mean_residual": -0.011574491358836389,
+  "global_residual_std": 0.656352564210317,
+  "global_mae": 0.4782913511575732,
+  "global_rmse": 0.6564542837067829
+}

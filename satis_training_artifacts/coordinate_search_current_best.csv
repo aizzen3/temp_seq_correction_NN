@@ -1,0 +1,2 @@
+conv_filters,kernel_size,dilation_rate,lstm_units,dropout_rate,learning_rate,num_conv_layers
+"(128,)",3,4,128,0.1,0.001,1

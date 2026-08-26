@@ -61,11 +61,11 @@ def corrupt_sensor(
     return corrupted
 
 
-def generate_one_dataset(seed=None, n_points=200):
+def generate_one_dataset(seed=None, n_points=300):
     if seed is not None:
         np.random.seed(seed)
 
-    t = np.linspace(0, 10, n_points)
+    t = np.linspace(0, 50, n_points)
     N = len(t)
 
     base_periodic = 0.05 * np.sin(2 * np.pi * 0.5 * t)

@@ -1,0 +1,2 @@
+conv_filters,kernel_size,dilation_rate,lstm_units,dropout_rate,learning_rate,backbone,use_learned_imputation,imputer_units,num_conv_layers
+"(256,)",3,1,128,0.1,0.001,conv_bilstm,True,32,1

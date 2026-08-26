@@ -2,7 +2,7 @@
 #SBATCH -p fat                # high-RAM nodes
 #SBATCH --job-name=qc_run
 #SBATCH --output=qc_%j.log    # log file (%j = job id)
-#SBATCH --time=08:00:00       # max runtime
+#SBATCH --time=3-00:00:00       # max runtime
 #SBATCH --mem=512G            # request RAM
 #SBATCH --cpus-per-task=8  
 
@@ -21,5 +21,6 @@ echo "Python path:"
 which python
 python --version
 
-python upgrade_satis.py
-python run_satis_conv_search.py
+
+python testing_model.py
+

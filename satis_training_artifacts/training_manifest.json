@@ -1,0 +1,35 @@
+{
+  "model_path": "satis_training_artifacts/best_satis_conv_bilstm_huber.keras",
+  "training_loss": "Huber(delta=1.0)",
+  "data_seed": 42,
+  "search_seeds": [
+    1,
+    2,
+    3
+  ],
+  "n_datasets": 1000,
+  "train_shape": [
+    700,
+    200,
+    9
+  ],
+  "validation_shape": [
+    150,
+    200,
+    9
+  ],
+  "test_shape": [
+    150,
+    200,
+    9
+  ],
+  "input_columns": [
+    "signal2_noisy",
+    "signal3_noisy",
+    "signal4_noisy"
+  ],
+  "target_columns": [
+    "global_temperature"
+  ],
+  "test_set_used_for_training_or_selection": false
+}
