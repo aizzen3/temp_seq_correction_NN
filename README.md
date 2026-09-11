@@ -1,4 +1,4 @@
-# Temperature Sequence Correction with SATIS Conv1Dâ€“BiLSTM
+# Temperature Sequence Correction with SATIS, Conv1D, BiLSTM
 
 This repository explores neural-network methods for reconstructing a hidden
 global-temperature sequence from three noisy and partially missing sensor
